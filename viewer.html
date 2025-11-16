@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sigmabot Viewer</title>
+  <style>
+    body { margin: 0; background: #111; overflow: hidden; }
+    canvas { display: block; width: 100vw; height: 100vh; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    const keys = { w: false, a: false, s: false, d: false, space: false };
+
+    window.addEventListener('keydown', e => {
+      if (keys[e.key.toLowerCase()] !== undefined) keys[e.key.toLowerCase()] = true;
+    });
+    window.addEventListener('keyup', e => {
+      if (keys[e.key.toLowerCase()] !== undefined) keys[e.key.toLowerCase()] = false;
+    });
+
+    function updateControls() {
+      const botViewer = window.botViewer || global.botViewer;
+      if (botViewer && botViewer.controls) {
+        botViewer.controls.forward = keys.w;
+        botViewer.controls.back = keys.s;
+        botViewer.controls.left = keys.a;
+        botViewer.controls.right = keys.d;
+        botViewer.controls.jump = keys.space;
+      }
+      requestAnimationFrame(updateControls);
+    }
+
+    updateControls();
+  </script>
+</body>
+</html>
